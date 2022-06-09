@@ -1,0 +1,36 @@
+alertmanager:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "traefik-internet-vpn"
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-common-headers@kubernetescrd
+    hosts:
+     - "alertmanager.internal-devops.${TARGET_ENV}.npool.top"
+    path: /
+
+grafana:
+  adminPassword: ${GRAFANA_PASSWORD}
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "traefik-internet-vpn"
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-common-headers@kubernetescrd
+    hosts:
+      - "grafana.internal-devops.${TARGET_ENV}.npool.top"
+    path: /
+  image:
+    repository: grafana/grafana
+    tag: "8.5.5"
+
+prometheus:
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "traefik-internet-vpn"
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-common-headers@kubernetescrd
+    hosts:
+      - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
+    path: /
