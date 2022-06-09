@@ -42,7 +42,7 @@ pipeline {
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
         sh 'TARGET_ENV=$TARGET_ENV envsubst < values.yaml > .values.yaml'
         sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD envsubst < values.yaml > .values.yaml'
-        sh 'helm upgrade rabbitmq -f values.service.yaml --namespace monitor ./kube-prometheus-stack || helm install rabbitmq -f values.service.yaml --namespace monitor ./kube-prometheus-stack'
+        sh 'helm upgrade prometheus -f values.yaml --namespace monitor ./kube-prometheus-stack || helm install prometheus -f values.yaml --namespace monitor ./kube-prometheus-stack'
         sh 'kubectl apply -f ./grafana-dashboards/'
       }
     }
