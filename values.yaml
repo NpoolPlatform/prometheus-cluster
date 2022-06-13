@@ -11,7 +11,7 @@ alertmanager:
   alertmanagerSpec:
     alertmanagerConfigSelector:
       matchLabels:
-        alertmanagerConfig: true
+        alertmanagerConfig: alertmanager
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
