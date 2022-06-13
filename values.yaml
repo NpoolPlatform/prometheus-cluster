@@ -15,6 +15,9 @@ alertmanager:
       group_interval: 5m
       repeat_interval: 12h
       receiver: 'wechat'
+      - receiver: 'wechat'
+        matchers:
+          - alertname =~ "InfoInhibitor|Watchdog"
     receivers:
       - name: 'wechat'
         webhook_configs:
