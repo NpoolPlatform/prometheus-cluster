@@ -15,7 +15,7 @@ alertmanager:
       group_interval: 5m
       repeat_interval: 12h
       receiver: 'wechat'
-      routes:
+      routes:kubectl
       - receiver: 'wechat'
         matchers:
           - alertname =~ "InfoInhibitor|Watchdog"
@@ -28,6 +28,7 @@ alertmanager:
           corp_id: 'ww77d915fa93e958d0'
           agent_id: '1000002'
           api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
+          to_user: '@all'
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
@@ -53,3 +54,13 @@ prometheus:
     hosts:
       - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
     path: /
+prometheusSpec:
+  storageSpec:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: gluster
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 50Gi
+      selector: {}
