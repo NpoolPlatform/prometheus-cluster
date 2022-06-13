@@ -9,18 +9,33 @@ alertmanager:
       - "alertmanager.internal-devops.${TARGET_ENV}.npool.top"
     path: /
   config:
+    global:
+      resolve_timeout: 10m
+      wechat_api_url: 'https://qyapi.weixin.qq.com/cgi-bin/'
+      wechat_api_secret: '应用的secret，在应用的配置页面可以看到'
+      wechat_api_corp_id: '企业id，在企业的配置页面可以看到'
+    templates:
+      - '/etc/alertmanager/config/*.tmpl'
     route:
-      group_by: [ 'job' ]
+      group_by: [ 'alertname' ]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 12h
-      receiver: 'wechat'
+      routes:
+        - receiver: 'wechat'
+          continue: true
+    inhibit_rules:
+      - source_match:
     receivers:
       - name: 'wechat'
-        webhook_configs:
-        - send_resolved: false
-          url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
-
+        wechat_configs:
+          - send_resolved: false
+            corp_id: '企业id，在企业的配置页面可以看到'
+            to_user: '@all'
+            to_party: ' PartyID1 | PartyID2 '
+            message: '{{ template "wechat.default.message" . }}'
+            agent_id: '应用的AgentId，在应用的配置页面可以看到'
+            api_secret: '应用的secret，在应用的配置页面可以看到'
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
