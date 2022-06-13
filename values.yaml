@@ -8,9 +8,10 @@ alertmanager:
     hosts:
      - "alertmanager.internal-devops.${TARGET_ENV}.npool.top"
     path: /
-  alertmanagerConfigSelector:
-    matchLabels:
-      alertmanagerConfig: true
+  alertmanagerSpec:
+    alertmanagerConfigSelector:
+      matchLabels:
+        alertmanagerConfig: true
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
