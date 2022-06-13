@@ -17,12 +17,10 @@ alertmanager:
       receiver: 'wechat'
       receivers:
         - name: 'wechat'
-          wechatConfigs:
-            - apiURL: 'http://wechatserver:8080/'
-              corpID: 'wechat-corpid'
-              apiSecret:
-                name: 'wechat-config'
-                key: 'apiSecret'
+          wechat_config:
+            - api_url: 'http://wechatserver:8080/'
+              corp_id: 'wechat-corpid'
+              api_secret: "aaa"
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
