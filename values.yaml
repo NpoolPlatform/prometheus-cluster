@@ -8,10 +8,15 @@ alertmanager:
     hosts:
      - "alertmanager.internal-devops.${TARGET_ENV}.npool.top"
     path: /
-  alertmanagerSpec:
-    alertmanagerConfigSelector:
-      matchLabels:
-        alertmanagerConfig: alertmanager
+  config:
+    receivers:
+      - name: 'wechat'
+        wechatConfigs:
+          - apiURL: 'http://wechatserver:8080/'
+            corpID: 'wechat-corpid'
+            apiSecret:
+              name: 'wechat-config'
+              key: 'apiSecret'
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
