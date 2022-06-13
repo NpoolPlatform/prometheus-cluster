@@ -12,7 +12,7 @@ alertmanager:
     global:
       resolve_timeout: 5m
     route:
-      group_by: ['job']
+      group_by: [ 'job' ]
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 12h
@@ -22,17 +22,17 @@ alertmanager:
           matchers:
             - alertname =~ "InfoInhibitor|Watchdog"
     receivers:
-    - name: 'wechat'
-    wechat_configs:
-      - send_resolved: false
-        corp_id: 'ww77d915fa93e958d0'
-        to_user: '@all'
-        to_party: '苏宁'
-        message: '{{ template "wechat.default.message" . }}'
-        agent_id: '1000002'
-        api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
+      - name: 'wechat'
+      wechat_configs:
+        - send_resolved: false
+          corp_id: 'ww77d915fa93e958d0'
+          to_user: '@all'
+          to_party: '苏宁'
+          message: '{{ template "wechat.default.message" . }}'
+          agent_id: '1000002'
+          api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
     templates:
-    - '/etc/alertmanager/config/*.tmpl'
+      - '/etc/alertmanager/config/*.tmpl'
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
