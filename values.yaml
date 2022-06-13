@@ -19,12 +19,6 @@ alertmanager:
       receiver: 'null'
     receivers:
       - name: 'wechat'
-        wechat_configs:
-          - corp_id: 'ww77d915fa93e958d0'
-            to_user: '@all'
-            to_party: '苏宁'
-            agent_id: '1000002'
-            api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
     templates:
       - /etc/alertmanager/config/*.tmpl
 
