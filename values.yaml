@@ -15,12 +15,12 @@ alertmanager:
       group_interval: 5m
       repeat_interval: 12h
       receiver: 'wechat'
-      receivers:
-        - name: 'wechat'
-          wechat_config:
-            - api_url: 'http://wechatserver:8080/'
-              corp_id: 'wechat-corpid'
-              api_secret: "aaa"
+    receivers:
+      - name: 'wechat'
+        wechat_config:
+          - api_url: 'http://wechatserver:8080/'
+            corp_id: 'wechat-corpid'
+            api_secret: "aaa"
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
