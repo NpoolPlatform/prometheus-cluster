@@ -22,9 +22,12 @@ alertmanager:
     receivers:
       - name: 'wechat'
         wechat_configs:
-        - send_resolved: false
-          api_url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
-
+        - send_resolved: true
+          api_url: 'https://qyapi.weixin.qq.com/cgi-bin'
+          to_party: 1
+          corp_id: 'ww77d915fa93e958d0'
+          agent_id: '1000002'
+          api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
