@@ -21,9 +21,9 @@ alertmanager:
           - alertname =~ "InfoInhibitor|Watchdog"
     receivers:
       - name: 'wechat'
-        webhook_configs:
+        wechat_config:
         - send_resolved: false
-          url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
+          api_url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
