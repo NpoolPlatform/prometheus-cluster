@@ -17,9 +17,9 @@ alertmanager:
       receiver: 'wechat'
     receivers:
       - name: 'wechat'
-          webhook_configs:
-          - send_resolved: false
-            url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
+        webhook_configs:
+        - send_resolved: false
+          url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
