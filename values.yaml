@@ -21,7 +21,7 @@ alertmanager:
           - alertname =~ "InfoInhibitor|Watchdog"
     receivers:
       - name: 'wechat'
-        wechat_config:
+        wechat_configs:
         - send_resolved: false
           api_url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
 
