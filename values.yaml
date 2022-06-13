@@ -23,14 +23,14 @@ alertmanager:
             - alertname =~ "InfoInhibitor|Watchdog"
     receivers:
       - name: 'wechat'
-      wechat_configs:
-        - send_resolved: false
-          corp_id: 'ww77d915fa93e958d0'
-          to_user: '@all'
-          to_party: '苏宁'
-          message: '{{ template "wechat.default.message" . }}'
-          agent_id: '1000002'
-          api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
+        wechat_configs:
+          - send_resolved: false
+            corp_id: 'ww77d915fa93e958d0'
+            to_user: '@all'
+            to_party: '苏宁'
+            message: '{{ template "wechat.default.message" . }}'
+            agent_id: '1000002'
+            api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
     templates:
       - '/etc/alertmanager/config/*.tmpl'
 
