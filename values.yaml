@@ -17,10 +17,9 @@ alertmanager:
       receiver: 'wechat'
     receivers:
       - name: 'wechat'
-        wechat_config:
-          - api_url: 'http://wechatserver:8080/'
-            corp_id: 'wechat-corpid'
-            api_secret: "aaa"
+          webhook_configs:
+          - send_resolved: false
+            url: http://webhook-dingtalk.monitor.svc.cluster.local:8060/dingtalk/webhook1/send
 
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
