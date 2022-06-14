@@ -1,7 +1,4 @@
 # Prometheus Cluster
-
-[![Test](https://github.com/NpoolPlatform/service-template/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/NpoolPlatform/service-template/actions/workflows/main.yml)
-
 [目录](#目录)
 - [功能](#功能)
 - [配置说明](#配置说明)
@@ -34,6 +31,7 @@
 * WECHAT_AGENT_ID ```企业微信应用的ID```
 * WECHAT_API_SECRET ```企业微信应用的Secret```
 * GRAFANA_PASSWORD ```Grafana admin账号密码```
+* PROMETHEUS_STORAGE_CLASS_NAME ```Prometheus pvc storageClassName```
 
 
 ### 相关链接
