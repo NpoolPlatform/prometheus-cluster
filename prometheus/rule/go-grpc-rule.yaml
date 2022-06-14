@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus
+  name: go-grpc-rule
+  namespace: monitor
+spec:
+  groups:
+    - name: go-grpc
+      rules:
+        - alert: "go-grpc resident memory 大于40M"
+          annotations:
+            summary: "{{ $labels.job }}内存使用大于40M"
+            description: "{{ $labels.job }}内存使用大于40M(当前的值: {{ $value }}/1024/1024),请及时处理"
+          expr: |
+            （process_resident_memory_bytes{job="cloud-hashing-apis-v2"}) > 40000000
+          for: 3m
+          labels:
+            level: warning
