@@ -33,7 +33,7 @@ alertmanager:
       - /etc/alertmanager/template/*.tmpl
   alertmanagerSpec:
     volumes:
-      - name: alertmanager-wechat.tmpl
+      - name: wechat-tmpl
         configMap:
           name: wechat-tmpl
     volumeMounts:
