@@ -64,12 +64,12 @@ prometheus:
     hosts:
       - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
     path: /
-  prometheusSpec:
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: gluster
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 50Gi
+#  prometheusSpec:
+#    storageSpec:
+#      volumeClaimTemplate:
+#        spec:
+#          storageClassName: gluster
+#          accessModes: ["ReadWriteOnce"]
+#          resources:
+#            requests:
+#              storage: 50Gi
