@@ -2,6 +2,7 @@
 [目录](#目录)
 - [功能](#功能)
 - [配置说明](#配置说明)
+- [go-grpc服务监控集成说明](#go-grpc服务监控集成说明)
 - [jenkin配置说明](#jenkin配置说明)
 - [相关链接](#相关链接)
 -----------
@@ -24,6 +25,11 @@
 
 
 * 告警通知部门和指定用户可以在values.yaml中alertmanager.config.receivers.to_party和to_user中修改
+
+### go-grpc服务监控集成说明
+* 修改viper.yaml文件添加prometheus_port:端口 
+* service绑定prometheus_port端口
+* 声明ServiceMonitor指定service
 
 ### jenkin配置说明
 需要添加如下选项参数
