@@ -48,7 +48,6 @@ pipeline {
         sh 'kubectl apply -f ./prometheus/rule/'
       }
     }
-  }
 
     stage('Deploy redis exporter cluster') {
       when {
