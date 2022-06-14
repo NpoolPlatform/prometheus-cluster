@@ -14,7 +14,7 @@ spec:
             summary: "{{ $labels.job }}内存使用大于40M"
             description: "{{ $labels.job }}内存使用大于40M(当前的值: {{ $value }}/1024/1024),请及时处理"
           expr: |
-            （process_resident_memory_bytes{job="cloud-hashing-apis-v2"}) > 40000000
+            (process_resident_memory_bytes{job="cloud-hashing-apis-v2"}) > 40000000
           for: 3m
           labels:
             level: warning
