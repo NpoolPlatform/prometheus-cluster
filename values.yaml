@@ -31,11 +31,11 @@ alertmanager:
           to_user: '@all'
     templates:
       - /etc/alertmanager/template/*.tmpl
+  alertmanagerSpec:
     volumes:
       - name: alertmanager-wechat.tmpl
         configMap:
           name: wechat-tmpl
-alertmanagerSpec:
     volumeMounts:
       - mountPath: /etc/alertmanager/template
         name: wechat-tmpl
@@ -64,13 +64,13 @@ prometheus:
     hosts:
       - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
     path: /
-prometheusSpec:
-  storageSpec:
-    volumeClaimTemplate:
-      spec:
-        storageClassName: gluster
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 50Gi
-      selector: {}
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gluster
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+        selector: {}
