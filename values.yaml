@@ -30,13 +30,13 @@ alertmanager:
           api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
           to_user: '@all'
     templates:
-      - /etc/alertmanager/config/*.tmpl
+      - /etc/alertmanager/template/*.tmpl
     volumes:
       - name: alertmanager-wechat.tmpl
         configMap:
           name: wechat-tmpl
     volumeMounts:
-      - mountPath: /etc/alertmanager/config
+      - mountPath: /etc/alertmanager/template
         name: wechat-tmpl
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
