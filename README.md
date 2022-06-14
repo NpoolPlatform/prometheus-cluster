@@ -31,7 +31,7 @@
 * WECHAT_AGENT_ID ```企业微信应用的ID```
 * WECHAT_API_SECRET ```企业微信应用的Secret```
 * GRAFANA_PASSWORD ```Grafana admin账号密码```
-* PROMETHEUS_STORAGE_CLASS_NAME ```Prometheus pvc storageClassName```
+* STORAGE_CLASS_NAME ```pvc storageClassName```
 
 
 ### 相关链接

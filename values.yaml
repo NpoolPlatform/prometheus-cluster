@@ -16,22 +16,31 @@ alertmanager:
       repeat_interval: 12h
       receiver: 'wechat'
       routes:
-      - receiver: 'wechat'
-        matchers:
-          - alertname =~ "InfoInhibitor|Watchdog"
+        - receiver: 'wechat'
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
     receivers:
       - name: 'wechat'
         wechat_configs:
-        - send_resolved: true
-          api_url: 'https://qyapi.weixin.qq.com/cgi-bin'
-          to_party: 1
-          corp_id: ${WECHAT_CORP_ID}
-          agent_id: ${WECHAT_AGENT_ID}
-          api_secret: ${WECHAT_API_SECRET}
-          to_user: '@all'
+          - send_resolved: true
+            api_url: 'https://qyapi.weixin.qq.com/cgi-bin'
+            to_party: 1
+            corp_id: ${WECHAT_CORP_ID}
+            agent_id: ${WECHAT_AGENT_ID}
+            api_secret: ${WECHAT_API_SECRET}
+            to_user: '@all'
     templates:
       - /etc/alertmanager/template/*.tmpl
   alertmanagerSpec:
+    retention: 120h
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: ${STORAGE_CLASS_NAME}
+          accessModes: [ "ReadWriteOnce" ]
+          resources:
+            requests:
+              storage: 1Gi
     volumes:
       - name: wechat-tmpl
         configMap:
@@ -39,6 +48,7 @@ alertmanager:
     volumeMounts:
       - mountPath: /etc/alertmanager/template
         name: wechat-tmpl
+
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
@@ -65,11 +75,12 @@ prometheus:
       - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
     path: /
   prometheusSpec:
+    retention: 15d
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: ${PROMETHEUS_STORAGE_CLASS_NAME}
-          accessModes: ["ReadWriteOnce"]
+          storageClassName: ${STORAGE_CLASS_NAME}
+          accessModes: [ "ReadWriteOnce" ]
           resources:
             requests:
               storage: 1Gi
