@@ -35,6 +35,7 @@ alertmanager:
       - name: alertmanager-wechat.tmpl
         configMap:
           name: wechat-tmpl
+alertmanagerSpec:
     volumeMounts:
       - mountPath: /etc/alertmanager/template
         name: wechat-tmpl
