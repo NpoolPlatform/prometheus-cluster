@@ -41,6 +41,7 @@ pipeline {
       steps {
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
         sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD TARGET_ENV=$TARGET_ENV envsubst < values.yaml > .values.yaml'
+        sh 'kubectl apply -f ./alertmanager/template/'
         sh 'helm upgrade prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack || helm install prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack'
         sh 'kubectl apply -f ./grafana-dashboards/'
       }

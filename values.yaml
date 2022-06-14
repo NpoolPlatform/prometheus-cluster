@@ -29,6 +29,15 @@ alertmanager:
           agent_id: '1000002'
           api_secret: 'zZ4TkwZISYEPErgRjxt3JsHMMXIGPjZWBMYLyJg4hPE'
           to_user: '@all'
+    templates:
+      - /etc/alertmanager/config/*.tmpl
+    volumes:
+      - name: alertmanager-wechat.tmpl
+        configMap:
+          name: wechat-tmpl
+    volumeMounts:
+      - mountPath: /etc/alertmanager/config
+        name: wechat-tmpl
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
