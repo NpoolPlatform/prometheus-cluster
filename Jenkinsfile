@@ -44,6 +44,7 @@ pipeline {
         sh 'kubectl apply -f ./alertmanager/template/'
         sh 'helm upgrade prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack || helm install prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack'
         sh 'kubectl apply -f ./grafana-dashboards/'
+        sh 'kubectl apply -f ./prometheus/rule/'
       }
     }
   }
