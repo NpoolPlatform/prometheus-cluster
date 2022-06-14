@@ -55,7 +55,6 @@ pipeline {
       }
       steps {
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
-        sh 'helm repo add stable https://charts.helm.sh/stable'
         sh 'helm repo update'
         sh 'helm upgrade prometheus-redis-exporter -f ./redis-exporter/values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter'
       }
