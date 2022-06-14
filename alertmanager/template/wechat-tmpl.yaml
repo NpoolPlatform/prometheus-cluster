@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: wechat-tmpl
-  namespace: nonitor
+  namespace: monitor
 data:
   wechat.tmpl: |
     {{ define “wechat.default.message” }}
