@@ -50,5 +50,5 @@ auth:
   enabled: true
   secret:
     name: redis-password
-    key: "data.password"
+    key: "password"
   redisUser: root
