@@ -18,7 +18,7 @@
 * grafana-dashboards用于存放grafana dashboard模板 ```添加新的模板直接新建configMap即可，注意:需要在configMap labels中声明grafana_dashboard: "1"```
   
 
-* kube-prometheus-stacky```hellm相关配置```https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+* kube-prometheus-stacky```helm相关配置```https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
   
 
 * prometheus/rule下存放prometheus告警规则```添加新的规则直接新建PrometheusRule即可，建议一个groups一个yaml文件，注意：PrometheusRule labels需要声明release: prometheus```
