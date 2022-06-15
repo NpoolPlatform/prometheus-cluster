@@ -34,3 +34,8 @@ prometheusRule:
         summary: Redis instance {{ "{{ $labels.instance }}" }} has evicted keys
         description: |
           Redis instance {{ "{{ $labels.instance }}" }} has evicted {{ "{{ $value }}" }} keys in the last 5 minutes.
+serviceMonitor:
+  enabled: true
+  namespace: monitor
+  labels:
+    release: prometheus
