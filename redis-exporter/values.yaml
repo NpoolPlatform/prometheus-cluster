@@ -1,4 +1,4 @@
-redisAddress: redis://redis:6379
+redisAddress: redis://redis.kube-system:6379
 prometheusRule:
   enabled: true
   namespace: monitor
