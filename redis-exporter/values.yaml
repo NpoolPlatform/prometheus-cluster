@@ -1,4 +1,4 @@
-redisAddress: redis://redis.kube-system.svc.cluster.local:6379
+redisAddress: redis.kube-system.svc.cluster.local:6379
 
 image:
   tag: alpine
