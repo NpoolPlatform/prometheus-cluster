@@ -47,7 +47,7 @@ serviceMonitor:
   labels:
     release: prometheus
 auth:
-  enabled: fla
+  enabled: true
   secret:
     name: redis-password
     key: "data.password"
