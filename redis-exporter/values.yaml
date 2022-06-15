@@ -41,6 +41,6 @@ serviceMonitor:
     release: prometheus
 auth:
   secret:
-    name: "redis-password"
-    key: "password"
-  redisUser: "root"
+    name: redis-password
+    key: password
+  redisUser: root
