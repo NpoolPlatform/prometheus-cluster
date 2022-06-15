@@ -40,4 +40,7 @@ serviceMonitor:
   labels:
     release: prometheus
 auth:
-  redisPassword: ${REDIS_PASSWORD}
+  secret:
+    name: "redis-password"
+    key: "password"
+  redisUser: "root"
