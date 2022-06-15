@@ -40,7 +40,7 @@ pipeline {
       }
       steps {
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
-        sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD TARGET_ENV=$TARGET_ENV WECHAT_CORP_ID=$WECHAT_CORP_ID WECHAT_AGENT_ID=$WECHAT_AGENT_ID WECHAT_API_SECRET=$WECHAT_API_SECRET STORAGE_CLASS_NAME=$STORAGE_CLASS_NAME envsubst < values.yaml > .values.yaml'
+        sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD TARGET_ENV=$TARGET_ENV WECHAT_CORP_ID=$WECHAT_CORP_ID WECHAT_AGENT_ID=$WECHAT_AGENT_ID WECHAT_API_SECRET=$WECHAT_API_SECRET STORAGE_CLASS_NAME=$STORAGE_CLASS_NAME REDIS_PASSWORD=$REDIS_PASSWORD envsubst < values.yaml > .values.yaml'
         sh 'kubectl apply -f ./alertmanager/template/'
         sh 'helm upgrade prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack || helm install prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack'
         sh 'kubectl apply -f ./grafana-dashboards/'
