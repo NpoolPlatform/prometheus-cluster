@@ -38,7 +38,6 @@
 * WECHAT_API_SECRET ```企业微信应用的Secret```
 * GRAFANA_PASSWORD ```Grafana admin账号密码```
 * STORAGE_CLASS_NAME ```pvc storageClassName```
-* REDIS_PASSWORD ```redis password```
 
 
 ### 相关链接
