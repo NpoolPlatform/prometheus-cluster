@@ -1,7 +1,7 @@
-redisAddress: redis://redis:6379
+redisAddress: redis://redis.kube-system:6379
 prometheusRule:
   enabled: true
-  namespace: kube-system
+  namespace: monitor
   rules:
     - alert: RedisDown
       expr: redis_up{service="{{ template "prometheus-redis-exporter.fullname" . }}"} == 0
