@@ -1,4 +1,8 @@
 redisAddress: redis://redis.kube-system.svc.cluster.local:6379
+
+image:
+  tag: alpine
+
 prometheusRule:
   enabled: true
   namespace: monitor
