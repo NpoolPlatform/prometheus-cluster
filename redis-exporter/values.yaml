@@ -2,7 +2,7 @@ redisAddress: redis://redis.kube-system.svc.cluster.local:6379
 
 env:
   - name: REDIS_EXPORTER_DEBUG
-    value: true
+    value: "true"
 image:
   tag: alpine
 
