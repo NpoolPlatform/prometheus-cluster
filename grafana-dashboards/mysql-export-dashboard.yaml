@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: mysql-grafana-dashboard
   namespace: monitor
-  labels:
-    grafana_dashboard: "1"
 data:
   mysql-exporter-dashboard.json: |-
     {
