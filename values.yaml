@@ -50,6 +50,7 @@ alertmanager:
         name: wechat-tmpl
     nodeSelector:
       ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
+
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
@@ -62,10 +63,13 @@ grafana:
       - "grafana.internal-devops.${TARGET_ENV}.npool.top"
     path: /
   image:
-    repository: grafana/grafana
+    repository: uhub.service.ucloud.cn/entropypool/grafana
     tag: "8.5.5"
   nodeSelector:
     ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
+  sidecar:
+    image:
+
 prometheus:
   ingress:
     enabled: true
@@ -96,5 +100,8 @@ prometheusOperator:
         ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
 
 kube-state-metrics:
+  image:
+    repository: uhub.service.ucloud.cn/entropypool/kube-state-metrics
+    tag: v2.5.0
   nodeSelector:
     ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
