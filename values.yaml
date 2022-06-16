@@ -69,6 +69,13 @@ grafana:
     ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
   sidecar:
     image:
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: ${STORAGE_CLASS_NAME}
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
 
 prometheus:
   ingress:
