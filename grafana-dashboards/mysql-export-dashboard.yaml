@@ -6497,7 +6497,7 @@ data:
             "description": "The name of the release used to setup the cluster.",
             "hide": 0,
             "includeAll": false,
-            "label": "Release",
+            "label": "job",
             "multi": false,
             "multiFormat": "regex values",
             "name": "job",
@@ -6529,7 +6529,7 @@ data:
             "definition": "label_values(mysql_up{job=\"${job}\"}, pod)",
             "hide": 0,
             "includeAll": false,
-            "label": "Node",
+            "label": "pod",
             "multi": false,
             "multiFormat": "regex values",
             "name": "pod",
@@ -6547,12 +6547,36 @@ data:
             "useTags": false
           },
           {
-            "hide": 2,
+            "allFormat": "glob",
+            "current": {
+              "isNone": true,
+              "selected": true,
+              "text": "None",
+              "value": ""
+            },
+            "datasource": {
+              "type": "prometheus",
+              "uid": "prometheus"
+            },
+            "definition": "label_values(mysql_up, instance)",
+            "hide": 0,
+            "includeAll": false,
             "label": "hosts",
+            "multi": false,
+            "multiFormat": "regex values",
             "name": "hosts",
-            "query": "192.168.205.2.*",
+            "options": [],
+            "query": {
+              "query": "label_values(mysql_up, instance)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 1,
+            "refresh_on_load": false,
+            "regex": "",
             "skipUrlSync": false,
-            "type": "constant"
+            "sort": 1,
+            "type": "query",
+            "useTags": false
           }
         ]
       },
