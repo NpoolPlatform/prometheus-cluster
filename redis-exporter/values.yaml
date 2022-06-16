@@ -1,15 +1,5 @@
 redisAddress: redis://redis.kube-system.svc.cluster.local:6379
 
-env:
-  - name: REDIS_USER
-    value: "root"
-  - name: REDIS_EXPORTER_DEBUG
-    value: "true"
-  - name: REDIS_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        key: password
-        name: redis-password
 image:
   tag: alpine
 
@@ -53,9 +43,8 @@ serviceMonitor:
   namespace: monitor
   labels:
     release: prometheus
-#auth:
-#  enabled: true
-#  secret:
-#    name: redis-password
-#    key: "password"
-#  redisUser: root
+auth:
+  enabled: true
+  secret:
+    name: redis-password
+    key: "password"
