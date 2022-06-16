@@ -10,7 +10,7 @@ spec:
     - name: redis-export
       rules:
         - alert: RedisDown
-          expr: redis_up{service="{{ template "prometheus-redis-exporter.fullname" . }}"} == 0
+          expr: redis_up{service="prometheus-redis-exporter"} == 0
           for: 2m
           labels:
             severity: error
@@ -19,9 +19,9 @@ spec:
             description: Redis instance {{ "{{ $labels.instance }}" }} is down.
         - alert: RedisMemoryHigh
           expr: >
-            redis_memory_used_bytes{service="{{ template "prometheus-redis-exporter.fullname" . }}"} * 100
+            redis_memory_used_bytes{service="prometheus-redis-exporter"} * 100
             /
-            redis_memory_max_bytes{service="{{ template "prometheus-redis-exporter.fullname" . }}"}
+            redis_memory_max_bytes{service="prometheus-redis-exporter"}
             > 90 <= 100
           for: 2m
           labels:
@@ -32,7 +32,7 @@ spec:
               Redis instance {{ "{{ $labels.instance }}" }} is using {{ "{{ $value }}" }}% of its available memory.
         - alert: RedisKeyEviction
           expr: |
-            increase(redis_evicted_keys_total{service="{{ template "prometheus-redis-exporter.fullname" . }}"}[5m]) > 0
+            increase(redis_evicted_keys_total{service="prometheus-redis-exporter"}[5m]) > 0
           for: 1s
           labels:
             severity: error
