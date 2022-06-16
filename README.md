@@ -38,7 +38,8 @@
 * WECHAT_API_SECRET ```企业微信应用的Secret```
 * GRAFANA_PASSWORD ```Grafana admin账号密码```
 * STORAGE_CLASS_NAME ```pvc storageClassName```
-
+* NODE_SELECTOR_LABEL_KEY ```指定的k8s node的标签key```
+* NODE_SELECTOR_LABEL_VALUE ```指定的k8s node的标签value```
 
 ### 相关链接
 * [Prometheus Community Kubernetes Helm Charts](https://github.com/prometheus-community/helm-charts)

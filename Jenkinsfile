@@ -40,7 +40,7 @@ pipeline {
       }
       steps {
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
-        sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD TARGET_ENV=$TARGET_ENV WECHAT_CORP_ID=$WECHAT_CORP_ID WECHAT_AGENT_ID=$WECHAT_AGENT_ID WECHAT_API_SECRET=$WECHAT_API_SECRET STORAGE_CLASS_NAME=$STORAGE_CLASS_NAME envsubst < values.yaml > .values.yaml'
+        sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD TARGET_ENV=$TARGET_ENV WECHAT_CORP_ID=$WECHAT_CORP_ID WECHAT_AGENT_ID=$WECHAT_AGENT_ID WECHAT_API_SECRET=$WECHAT_API_SECRET STORAGE_CLASS_NAME=$STORAGE_CLASS_NAME NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < values.yaml > .values.yaml'
         sh 'kubectl apply -f ./alertmanager/template/'
         sh 'helm upgrade prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack || helm install prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack'
         sh 'kubectl apply -f ./grafana-dashboards/'
@@ -53,8 +53,9 @@ pipeline {
         expression { DEPLOY_TARGET == 'true' }
       }
       steps {
+        sh 'NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < ./redis-exporter/values.yaml > ./redis-exporter/.values.yaml'
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
-        sh 'helm upgrade prometheus-redis-exporter -f ./redis-exporter/values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter'
+        sh 'helm upgrade prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter'
       }
     }
   }

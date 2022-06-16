@@ -1,43 +1,6 @@
 redisAddress: redis://redis.kube-system.svc.cluster.local:6379
-
 image:
   tag: alpine
-
-prometheusRule:
-  enabled: true
-  namespace: monitor
-  rules:
-    - alert: RedisDown
-      expr: redis_up{service="{{ template "prometheus-redis-exporter.fullname" . }}"} == 0
-      for: 2m
-      labels:
-        severity: error
-      annotations:
-        summary: Redis instance {{ "{{ $labels.instance }}" }} down
-        description: Redis instance {{ "{{ $labels.instance }}" }} is down.
-    - alert: RedisMemoryHigh
-      expr: >
-         redis_memory_used_bytes{service="{{ template "prometheus-redis-exporter.fullname" . }}"} * 100
-         /
-         redis_memory_max_bytes{service="{{ template "prometheus-redis-exporter.fullname" . }}"}
-         > 90 <= 100
-      for: 2m
-      labels:
-        severity: error
-      annotations:
-        summary: Redis instance {{ "{{ $labels.instance }}" }} is using too much memory
-        description: |
-           Redis instance {{ "{{ $labels.instance }}" }} is using {{ "{{ $value }}" }}% of its available memory.
-    - alert: RedisKeyEviction
-      expr: |
-        increase(redis_evicted_keys_total{service="{{ template "prometheus-redis-exporter.fullname" . }}"}[5m]) > 0
-      for: 1s
-      labels:
-        severity: error
-      annotations:
-        summary: Redis instance {{ "{{ $labels.instance }}" }} has evicted keys
-        description: |
-          Redis instance {{ "{{ $labels.instance }}" }} has evicted {{ "{{ $value }}" }} keys in the last 5 minutes.
 serviceMonitor:
   enabled: true
   namespace: monitor
@@ -48,3 +11,5 @@ auth:
   secret:
     name: redis-password
     key: "password"
+nodeSelector:
+  ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}

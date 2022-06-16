@@ -48,7 +48,8 @@ alertmanager:
     volumeMounts:
       - mountPath: /etc/alertmanager/template
         name: wechat-tmpl
-
+    nodeSelector:
+      ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
 grafana:
   adminPassword: ${GRAFANA_PASSWORD}
   ingress:
@@ -63,7 +64,8 @@ grafana:
   image:
     repository: grafana/grafana
     tag: "8.5.5"
-
+  nodeSelector:
+    ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
 prometheus:
   ingress:
     enabled: true
@@ -84,3 +86,15 @@ prometheus:
           resources:
             requests:
               storage: 1Gi
+
+prometheusOperator:
+  nodeSelector:
+    ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
+  admissionWebhooks:
+    patch:
+      nodeSelector:
+        ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
+
+kube-state-metrics:
+  nodeSelector:
+    ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
