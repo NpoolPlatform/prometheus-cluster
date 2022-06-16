@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: go-grpc-dashboard
+  name: mysql-grafana-dashboard
   namespace: monitor
   labels:
     grafana_dashboard: "1"
