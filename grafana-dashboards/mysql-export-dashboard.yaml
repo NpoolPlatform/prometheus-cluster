@@ -8,80 +8,14 @@ metadata:
 data:
   mysql-exporter-dashboard.json: |-
     {
-      "__inputs": [
-        {
-          "name": "DS_PROMETHEUS",
-          "label": "Prometheus",
-          "description": "",
-          "type": "datasource",
-          "pluginId": "prometheus",
-          "pluginName": "Prometheus"
-        },
-        {
-          "name": "VAR_JOBSUFFIX",
-          "type": "constant",
-          "label": "Job Suffix",
-          "value": "mariadb-galera-metrics",
-          "description": ""
-        },
-        {
-          "name": "VAR_HOSTS",
-          "type": "constant",
-          "label": "Hosts IP regex",
-          "value": "192.168.205.2.*",
-          "description": "the physical hosts ips regex, used to filter node-exporter metrics."
-        }
-      ],
-      "__elements": [],
-      "__requires": [
-        {
-          "type": "panel",
-          "id": "gauge",
-          "name": "Gauge",
-          "version": ""
-        },
-        {
-          "type": "grafana",
-          "id": "grafana",
-          "name": "Grafana",
-          "version": "8.4.6"
-        },
-        {
-          "type": "panel",
-          "id": "graph",
-          "name": "Graph (old)",
-          "version": ""
-        },
-        {
-          "type": "datasource",
-          "id": "prometheus",
-          "name": "Prometheus",
-          "version": "1.0.0"
-        },
-        {
-          "type": "panel",
-          "id": "stat",
-          "name": "Stat",
-          "version": ""
-        },
-        {
-          "type": "panel",
-          "id": "table",
-          "name": "Table",
-          "version": ""
-        },
-        {
-          "type": "panel",
-          "id": "timeseries",
-          "name": "Time series",
-          "version": ""
-        }
-      ],
       "annotations": {
         "list": [
           {
             "builtIn": 1,
-            "datasource": "-- Grafana --",
+            "datasource": {
+              "type": "datasource",
+              "uid": "grafana"
+            },
             "enable": true,
             "hide": false,
             "iconColor": "#e0752d",
@@ -89,13 +23,13 @@ data:
             "name": "PMM Annotations",
             "showIn": 0,
             "tags": [
-                "pmm_annotation"
+              "pmm_annotation"
             ],
             "target": {
               "limit": 100,
               "matchAny": false,
               "tags": [
-                  "pmm_annotation"
+                "pmm_annotation"
               ],
               "type": "tags"
             },
@@ -108,13 +42,17 @@ data:
       "fiscalYearStartMonth": 0,
       "gnetId": 15641,
       "graphTooltip": 1,
-      "id": null,
-      "iteration": 1652199672108,
+      "id": 57,
+      "iteration": 1655369654723,
       "links": [],
       "liveNow": false,
       "panels": [
         {
           "collapsed": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -127,12 +65,17 @@ data:
           "type": "row"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "fieldConfig": {
             "defaults": {
               "custom": {
                 "align": "auto",
                 "displayMode": "auto",
-                "filterable": false
+                "filterable": false,
+                "inspect": false
               },
               "mappings": [],
               "thresholds": {
@@ -315,7 +258,7 @@ data:
             "footer": {
               "fields": "",
               "reducer": [
-                  "sum"
+                "sum"
               ],
               "show": false
             },
@@ -323,12 +266,12 @@ data:
             "showHeader": true,
             "sortBy": []
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "mysql_global_status_uptime{job=\"${rel}-${jobsuffix}\"}",
@@ -341,7 +284,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "mysql_up{job=\"${rel}-${jobsuffix}\"}",
@@ -355,7 +298,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "mysql_global_status_wsrep_local_state{job=\"${rel}-${jobsuffix}\"}",
@@ -369,7 +312,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "mysql_global_status_wsrep_cluster_size{job=\"${rel}-${jobsuffix}\"}",
@@ -485,7 +428,7 @@ data:
               {
                 "evaluator": {
                   "params": [
-                      0.85
+                    0.85
                   ],
                   "type": "gt"
                 },
@@ -494,9 +437,9 @@ data:
                 },
                 "query": {
                   "params": [
-                      "A",
-                      "1m",
-                      "now"
+                    "A",
+                    "1m",
+                    "now"
                   ]
                 },
                 "reducer": {
@@ -518,6 +461,10 @@ data:
                 "uid": "4bhLdd17k"
               }
             ]
+          },
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
           },
           "description": "The % of memory limit reached by each MariaDB container. Higher the %, higher the risk of OOM. Alert will be fired at 85% usage.",
           "fieldConfig": {
@@ -597,7 +544,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "sum(container_memory_working_set_bytes{pod=~\"${rel}-.*\", container=\"mariadb-galera\"}) by (pod) / sum(kube_pod_container_resource_limits{pod=~\"${rel}-.*\", container=\"mariadb-galera\", resource=\"memory\"}) by (pod)",
@@ -622,6 +569,10 @@ data:
           "type": "timeseries"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "This measures how much non buffer-pool memory are we using relative to total memory.  Memory usage within the Buffer Pool is ok, and InnoDB will use a little bit more as well (10-20%). When things get beyond that, we might have a leak.",
           "fieldConfig": {
             "defaults": {
@@ -663,7 +614,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -672,12 +623,12 @@ data:
             "showThresholdMarkers": true,
             "text": {}
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "(\n  (\nsum(container_memory_working_set_bytes{container=\"mariadb-galera\", pod=~\"$rel-.*\"}) by (pod)\n    -\n    sum(mysql_global_status_innodb_page_size{pod=~\"$rel-.*\"} * on (pod) mysql_global_status_buffer_pool_pages{pod=~\"$rel-.*\", state=\"data\"}) by (pod)\n  )\n  /\n  sum(kube_pod_container_resource_limits{pod=~\"$rel-.*\", container=\"mariadb-galera\", resource=\"memory\"}) by (pod)\n)",
@@ -693,6 +644,10 @@ data:
         },
         {
           "collapsed": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -705,6 +660,10 @@ data:
           "type": "row"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "**MySQL Uptime**\n\nThe amount of time since the last restart of the MySQL server process.",
           "fieldConfig": {
             "defaults": {
@@ -751,7 +710,7 @@ data:
             "orientation": "horizontal",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -759,13 +718,13 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "calculatedInterval": "10m",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -784,6 +743,10 @@ data:
           "type": "stat"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "**Current QPS**\n\nBased on the queries reported by MySQL's ``SHOW STATUS`` command, it is the number of statements executed by the server within the last second. This variable includes statements executed within stored programs, unlike the Questions variable. It does not count \n``COM_PING`` or ``COM_STATISTICS`` commands.",
           "fieldConfig": {
             "defaults": {
@@ -837,7 +800,7 @@ data:
             "orientation": "horizontal",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -845,13 +808,13 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "calculatedInterval": "10m",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -870,6 +833,10 @@ data:
           "type": "stat"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "**InnoDB Buffer Pool Size**\n\nInnoDB maintains a storage area called the buffer pool for caching data and indexes in memory.  Knowing how the InnoDB buffer pool works, and taking advantage of it to keep frequently accessed data in memory, is one of the most important aspects of MySQL tuning. The goal is to keep the working set in memory. In most cases, this should be between 60%-90% of available memory on a dedicated database host, but depends on many factors.",
           "fieldConfig": {
             "defaults": {
@@ -922,7 +889,7 @@ data:
             "orientation": "horizontal",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -930,13 +897,13 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "calculatedInterval": "10m",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -955,6 +922,10 @@ data:
           "type": "stat"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "**InnoDB Buffer Pool Size % of Total RAM**\n\nInnoDB maintains a storage area called the buffer pool for caching data and indexes in memory.  Knowing how the InnoDB buffer pool works, and taking advantage of it to keep frequently accessed data in memory, is one of the most important aspects of MySQL tuning. The goal is to keep the working set in memory. In most cases, this should be between 60%-90% of available memory on a dedicated database host, but depends on many factors.",
           "fieldConfig": {
             "defaults": {
@@ -1028,7 +999,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -1036,13 +1007,13 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "calculatedInterval": "10m",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -1078,6 +1049,10 @@ data:
           "type": "stat"
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "Show the % of buffer pool that is used up.",
           "fieldConfig": {
             "defaults": {
@@ -1112,7 +1087,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -1120,12 +1095,12 @@ data:
             "text": {},
             "textMode": "auto"
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "(mysql_global_status_innodb_page_size{pod=\"$node\"} * on (pod) mysql_global_status_buffer_pool_pages{pod=\"$node\",state=\"data\"})",
@@ -1139,7 +1114,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": false,
               "expr": "(mysql_global_variables_innodb_buffer_pool_size{pod=\"$node\"})",
@@ -1194,8 +1169,8 @@ data:
                 "mode": "binary",
                 "reduce": {
                   "include": [
-                      "max",
-                      "curr"
+                    "max",
+                    "curr"
                   ],
                   "reducer": "sum"
                 },
@@ -1207,6 +1182,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -1220,6 +1199,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 0,
               "description": "**Max Connections** \n\nMax Connections is the maximum permitted number of simultaneous client connections. By default, this is 151. Increasing this value increases the number of file descriptors that mysqld requires. If the required number of descriptors are not available, the server reduces the value of Max Connections.\n\nmysqld actually permits Max Connections + 1 clients to connect. The extra connection is reserved for use by accounts that have the SUPER privilege, such as root.\n\nMax Used Connections is the maximum number of connections that have been in use simultaneously since the server started.\n\nConnections is the number of connection attempts (successful or not) to the MySQL server.",
               "editable": true,
@@ -1280,7 +1263,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1298,7 +1281,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1317,7 +1300,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1373,6 +1356,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Active Threads**\n\nThreads Connected is the number of open connections, while Threads Running is the number of threads not sleeping.",
               "editable": true,
@@ -1437,7 +1424,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1456,7 +1443,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1473,7 +1460,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "avg_over_time(mysql_global_status_threads_running{pod=\"$node\"}[$interval]) or \navg_over_time(mysql_global_status_threads_running{pod=\"$node\"}[5m])",
@@ -1499,7 +1486,7 @@ data:
                 "mode": "time",
                 "show": true,
                 "values": [
-                    "total"
+                  "total"
                 ]
               },
               "yaxes": [
@@ -1528,6 +1515,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -1541,6 +1532,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "**MySQL Questions**\n\nThe number of statements executed by the server. This includes only statements sent to the server by clients and not statements executed within stored programs, unlike the Queries used in the QPS calculation. \n\nThis variable does not count the following commands:\n* ``COM_PING``\n* ``COM_STATISTICS``\n* ``COM_STMT_PREPARE``\n* ``COM_STMT_CLOSE``\n* ``COM_STMT_RESET``",
               "editable": true,
               "error": false,
@@ -1593,7 +1588,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1646,6 +1641,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Thread Cache**\n\nThe thread_cache_size variable sets how many threads the server should cache to reuse. When a client disconnects, the client's threads are put in the cache if the cache is not full. It is autosized in MySQL 5.6.8 and above (capped to 100). Requests for threads are satisfied by reusing threads taken from the cache if possible, and only when the cache is empty is a new thread created.\n\n* *Threads_created*: The number of threads created to handle connections.\n* *Threads_cached*: The number of threads in the thread cache.",
               "editable": true,
@@ -1705,7 +1704,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1723,7 +1722,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1741,7 +1740,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1795,6 +1794,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -1808,6 +1811,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "editable": true,
               "error": false,
@@ -1856,7 +1863,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1873,7 +1880,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1890,7 +1897,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -1942,6 +1949,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Select Types**\n\nAs with most relational databases, selecting based on indexes is more efficient than scanning an entire table's data. Here we see the counters for selects not done with indexes.\n\n* ***Select Scan*** is how many queries caused full table scans, in which all the data in the table had to be read and either discarded or returned.\n* ***Select Range*** is how many queries used a range scan, which means MySQL scanned all rows in a given range.\n* ***Select Full Join*** is the number of joins that are not joined on an index, this is usually a huge performance hit.",
               "editable": true,
@@ -1993,7 +2004,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2011,7 +2022,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2029,7 +2040,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2047,7 +2058,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2065,7 +2076,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2120,6 +2131,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -2133,6 +2148,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Sorts**\n\nDue to a query's structure, order, or other requirements, MySQL sorts the rows before returning them. For example, if a table is ordered 1 to 10 but you want the results reversed, MySQL then has to sort the rows to return 10 to 1.\n\nThis graph also shows when sorts had to scan a whole table or a given range of a table in order to return the results and which could not have been sorted via an index.",
               "editable": true,
@@ -2183,7 +2202,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2201,7 +2220,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2219,7 +2238,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2237,7 +2256,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2290,6 +2309,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Slow Queries**\n\nSlow queries are defined as queries being slower than the long_query_time setting. For example, if you have long_query_time set to 3, all queries that take longer than 3 seconds to complete will show on this graph.",
               "editable": true,
@@ -2336,7 +2359,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2392,6 +2415,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -2405,6 +2432,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**Aborted Connections**\n\nWhen a given host connects to MySQL and the connection is interrupted in the middle (for example due to bad credentials), MySQL keeps that info in a system table (since 5.6 this table is exposed in performance_schema).\n\nIf the amount of failed requests without a successful connection reaches the value of max_connect_errors, mysqld assumes that something is wrong and blocks the host from further connection.\n\nTo allow connections from that host again, you need to issue the ``FLUSH HOSTS`` statement.",
               "editable": true,
@@ -2453,7 +2484,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2471,7 +2502,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2527,6 +2558,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**Table Locks**\n\nMySQL takes a number of different locks for varying reasons. In this graph we see how many Table level locks MySQL has requested from the storage engine. In the case of InnoDB, many times the locks could actually be row locks as it only takes table level locks in a few specific cases.\n\nIt is most useful to compare Locks Immediate and Locks Waited. If Locks waited is rising, it means you have lock contention. Otherwise, Locks Immediate rising and falling is normal activity.",
               "editable": true,
@@ -2576,7 +2611,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2594,7 +2629,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2648,6 +2683,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -2661,6 +2700,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Network Traffic**\n\nHere we can see how much network traffic is generated by MySQL. Outbound is network traffic sent from MySQL and Inbound is network traffic MySQL has received.",
               "editable": true,
@@ -2710,7 +2753,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2728,7 +2771,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2781,6 +2824,10 @@ data:
               "bars": true,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Network Usage Hourly**\n\nHere we can see how much network traffic is generated by MySQL per hour. You can use the bar graph to compare data sent by MySQL and data received by MySQL.",
               "editable": true,
@@ -2831,7 +2878,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2849,7 +2896,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -2904,6 +2951,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -2917,6 +2968,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 0,
               "description": "***System Memory***: Total Memory for the system.\\\n***InnoDB Buffer Pool Data***: InnoDB maintains a storage area called the buffer pool for caching data and indexes in memory.\\\n***TokuDB Cache Size***: Similar in function to the InnoDB Buffer Pool,  TokuDB will allocate 50% of the installed RAM for its own cache.\\\n***Key Buffer Size***: Index blocks for MYISAM tables are buffered and are shared by all threads. key_buffer_size is the size of the buffer used for index blocks.\\\n***Adaptive Hash Index Size***: When InnoDB notices that some index values are being accessed very frequently, it builds a hash index for them in memory on top of B-Tree indexes.\\\n ***Query Cache Size***: The query cache stores the text of a SELECT statement together with the corresponding result that was sent to the client. The query cache has huge scalability problems in that only one thread can do an operation in the query cache at the same time.\\\n***InnoDB Dictionary Size***: The data dictionary is InnoDB ‘s internal catalog of tables. InnoDB stores the data dictionary on disk, and loads entries into memory while the server is running.\\\n***InnoDB Log Buffer Size***: The MySQL InnoDB log buffer allows transactions to run without having to write the log to disk before the transactions commit.",
               "editable": true,
@@ -2978,7 +3033,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_status_innodb_page_size{pod=\"$node\"} * on (pod) mysql_global_status_buffer_pool_pages{pod=\"$node\",state=\"data\"}",
@@ -2993,7 +3048,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_variables_innodb_log_buffer_size{pod=\"$node\"}",
@@ -3007,7 +3062,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_variables_innodb_additional_mem_pool_size{pod=\"$node\"}",
@@ -3021,7 +3076,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_status_innodb_mem_dictionary{pod=\"$node\"}",
@@ -3035,7 +3090,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_variables_key_buffer_size{pod=\"$node\"}",
@@ -3049,7 +3104,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_variables_query_cache_size{pod=\"$node\"}",
@@ -3063,7 +3118,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_status_innodb_mem_adaptive_hash{pod=\"$node\"}",
@@ -3077,7 +3132,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_variables_tokudb_cache_size{pod=\"$node\"}",
@@ -3128,6 +3183,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -3141,6 +3200,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**Top Command Counters**\n\nThe Com_{{xxx}} statement counter variables indicate the number of times each xxx statement has been executed. There is one status variable for each type of statement. For example, Com_delete and Com_update count [``DELETE``](https://dev.mysql.com/doc/refman/5.7/en/delete.html) and [``UPDATE``](https://dev.mysql.com/doc/refman/5.7/en/update.html) statements, respectively. Com_delete_multi and Com_update_multi are similar but apply to [``DELETE``](https://dev.mysql.com/doc/refman/5.7/en/delete.html) and [``UPDATE``](https://dev.mysql.com/doc/refman/5.7/en/update.html) statements that use multiple-table syntax.",
               "editable": true,
@@ -3197,7 +3260,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3251,6 +3314,10 @@ data:
               "bars": true,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**Top Command Counters Hourly**\n\nThe Com_{{xxx}} statement counter variables indicate the number of times each xxx statement has been executed. There is one status variable for each type of statement. For example, Com_delete and Com_update count [``DELETE``](https://dev.mysql.com/doc/refman/5.7/en/delete.html) and [``UPDATE``](https://dev.mysql.com/doc/refman/5.7/en/update.html) statements, respectively. Com_delete_multi and Com_update_multi are similar but apply to [``DELETE``](https://dev.mysql.com/doc/refman/5.7/en/delete.html) and [``UPDATE``](https://dev.mysql.com/doc/refman/5.7/en/update.html) statements that use multiple-table syntax.",
               "editable": true,
@@ -3305,7 +3372,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3359,6 +3426,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Handlers**\n\nHandler statistics are internal statistics on how MySQL is selecting, updating, inserting, and modifying rows, tables, and indexes.\n\nThis is in fact the layer between the Storage Engine and MySQL.\n\n* `read_rnd_next` is incremented when the server performs a full table scan and this is a counter you don't really want to see with a high value.\n* `read_key` is incremented when a read is done with an index.\n* `read_next` is incremented when the storage engine is asked to 'read the next index entry'. A high value means a lot of index scans are being done.",
               "editable": true,
@@ -3409,7 +3480,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3462,6 +3533,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "editable": true,
               "error": false,
@@ -3511,7 +3586,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3563,6 +3638,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "editable": true,
               "error": false,
@@ -3612,7 +3691,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3664,6 +3743,10 @@ data:
               "bars": true,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "editable": true,
               "error": false,
@@ -3713,7 +3796,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3767,6 +3850,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -3780,6 +3867,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Query Cache Memory**\n\nThe query cache has huge scalability problems in that only one thread can do an operation in the query cache at the same time. This serialization is true not only for SELECTs, but also for INSERT/UPDATE/DELETE.\n\nThis also means that the larger the `query_cache_size` is set to, the slower those operations become. In concurrent environments, the MySQL Query Cache quickly becomes a contention point, decreasing performance. MariaDB and AWS Aurora have done work to try and eliminate the query cache contention in their flavors of MySQL, while MySQL 8.0 has eliminated the query cache feature.\n\nThe recommended settings for most environments is to set:\n  ``query_cache_type=0``\n  ``query_cache_size=0``\n\nNote that while you can dynamically change these values, to completely remove the contention point you have to restart the database.",
               "editable": true,
@@ -3829,7 +3920,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3847,7 +3938,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3900,6 +3991,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Query Cache Activity**\n\nThe query cache has huge scalability problems in that only one thread can do an operation in the query cache at the same time. This serialization is true not only for SELECTs, but also for INSERT/UPDATE/DELETE.\n\nThis also means that the larger the `query_cache_size` is set to, the slower those operations become. In concurrent environments, the MySQL Query Cache quickly becomes a contention point, decreasing performance. MariaDB and AWS Aurora have done work to try and eliminate the query cache contention in their flavors of MySQL, while MySQL 8.0 has eliminated the query cache feature.\n\nThe recommended settings for most environments is to set:\n``query_cache_type=0``\n``query_cache_size=0``\n\nNote that while you can dynamically change these values, to completely remove the contention point you have to restart the database.",
               "editable": true,
@@ -3950,7 +4045,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3968,7 +4063,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -3986,7 +4081,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4004,7 +4099,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4022,7 +4117,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4076,6 +4171,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -4089,6 +4188,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "editable": true,
               "error": false,
@@ -4135,7 +4238,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4187,6 +4290,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "editable": true,
               "error": false,
@@ -4234,7 +4341,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4251,7 +4358,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4267,7 +4374,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "mysql_global_status_innodb_num_open_files{pod=\"$node\"}",
@@ -4317,6 +4424,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -4330,6 +4441,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Table Open Cache Status**\n\nThe recommendation is to set the `table_open_cache_instances` to a loose correlation to virtual CPUs, keeping in mind that more instances means the cache is split more times. If you have a cache set to 500 but it has 10 instances, each cache will only have 50 cached.\n\nThe `table_definition_cache` and `table_open_cache` can be left as default as they are auto-sized MySQL 5.6 and above (ie: do not set them to any value).",
               "editable": true,
@@ -4389,7 +4504,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4406,7 +4521,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "rate(mysql_global_status_table_open_cache_hits{pod=\"$node\"}[$interval]) or irate(mysql_global_status_table_open_cache_hits{pod=\"$node\"}[5m])",
@@ -4420,7 +4535,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "rate(mysql_global_status_table_open_cache_misses{pod=\"$node\"}[$interval]) or irate(mysql_global_status_table_open_cache_misses{pod=\"$node\"}[5m])",
@@ -4434,7 +4549,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "rate(mysql_global_status_table_open_cache_overflows{pod=\"$node\"}[$interval]) or irate(mysql_global_status_table_open_cache_overflows{pod=\"$node\"}[5m])",
@@ -4448,7 +4563,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "(rate(mysql_global_status_table_open_cache_hits{pod=\"$node\"}[$interval]) or irate(mysql_global_status_table_open_cache_hits{pod=\"$node\"}[5m]))/((rate(mysql_global_status_table_open_cache_hits{pod=\"$node\"}[$interval]) or irate(mysql_global_status_table_open_cache_hits{pod=\"$node\"}[5m]))+(rate(mysql_global_status_table_open_cache_misses{pod=\"$node\"}[$interval]) or irate(mysql_global_status_table_open_cache_misses{pod=\"$node\"}[5m])))",
@@ -4498,6 +4613,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Open Tables**\n\nThe recommendation is to set the `table_open_cache_instances` to a loose correlation to virtual CPUs, keeping in mind that more instances means the cache is split more times. If you have a cache set to 500 but it has 10 instances, each cache will only have 50 cached.\n\nThe `table_definition_cache` and `table_open_cache` can be left as default as they are auto-sized MySQL 5.6 and above (ie: do not set them to any value).",
               "editable": true,
@@ -4552,7 +4671,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4570,7 +4689,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4624,6 +4743,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -4637,6 +4760,10 @@ data:
               "bars": false,
               "dashLength": 10,
               "dashes": false,
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "decimals": 2,
               "description": "**MySQL Table Definition Cache**\n\nThe recommendation is to set the `table_open_cache_instances` to a loose correlation to virtual CPUs, keeping in mind that more instances means the cache is split more times. If you have a cache set to 500 but it has 10 instances, each cache will only have 50 cached.\n\nThe `table_definition_cache` and `table_open_cache` can be left as default as they are auto-sized MySQL 5.6 and above (ie: do not set them to any value).",
               "editable": true,
@@ -4696,7 +4823,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4714,7 +4841,7 @@ data:
                   "calculatedInterval": "2m",
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "datasourceErrors": {},
                   "errors": {},
@@ -4731,7 +4858,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "rate(mysql_global_status_opened_table_definitions{pod=\"$node\"}[$interval]) or irate(mysql_global_status_opened_table_definitions{pod=\"$node\"}[5m])",
@@ -4782,6 +4909,10 @@ data:
         },
         {
           "collapsed": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -4798,6 +4929,10 @@ data:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "editable": true,
           "error": false,
           "fill": 2,
@@ -4833,7 +4968,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -4846,7 +4981,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4864,7 +4999,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4918,6 +5053,10 @@ data:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "editable": true,
           "error": false,
           "fill": 6,
@@ -4954,7 +5093,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -4967,7 +5106,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4985,7 +5124,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5003,7 +5142,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5021,7 +5160,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5075,6 +5214,10 @@ data:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "editable": true,
           "error": false,
           "fill": 2,
@@ -5110,7 +5253,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -5123,7 +5266,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5141,7 +5284,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5195,6 +5338,10 @@ data:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -5231,7 +5378,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "pointradius": 1,
           "points": true,
           "renderer": "flot",
@@ -5254,7 +5401,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "rate(node_disk_read_bytes_total{job=\"node-exporter\", instance=~\"$hosts\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\"}[$__rate_interval])",
@@ -5267,7 +5414,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "rate(node_disk_written_bytes_total{job=\"node-exporter\", instance=~\"$hosts\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\"}[$__rate_interval])",
@@ -5280,7 +5427,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": "rate(node_disk_io_time_seconds_total{job=\"node-exporter\", instance=~\"$hosts\", device=~\"mmcblk.p.+|nvme.+|rbd.+|sd.+|vd.+|xvd.+|dm-.+|dasd.+\"}[$__rate_interval])",
@@ -5331,6 +5478,10 @@ data:
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "editable": true,
           "error": false,
           "fill": 2,
@@ -5367,7 +5518,7 @@ data:
             "alertThreshold": true
           },
           "percentage": false,
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -5385,7 +5536,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5404,7 +5555,7 @@ data:
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -5454,6 +5605,10 @@ data:
           }
         },
         {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "description": "The usage % for the /data mount point on the worker node. k8s will start eviction once the /data reaches 85% usage.",
           "fieldConfig": {
             "defaults": {
@@ -5491,7 +5646,7 @@ data:
             "orientation": "auto",
             "reduceOptions": {
               "calcs": [
-                  "lastNotNull"
+                "lastNotNull"
               ],
               "fields": "",
               "values": false
@@ -5500,12 +5655,12 @@ data:
             "showThresholdMarkers": true,
             "text": {}
           },
-          "pluginVersion": "8.4.6",
+          "pluginVersion": "8.5.5",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_PROMETHEUS}"
+                "uid": "prometheus"
               },
               "exemplar": true,
               "expr": " sum by (instance) (\n    (\n      node_filesystem_size_bytes{job=\"node-exporter\", instance=~\"$hosts\", mountpoint=\"/data\"} \n      - \n      node_filesystem_avail_bytes{job=\"node-exporter\", instance=~\"$hosts\", mountpoint=\"/data\"}\n    ) \n    / \n    node_filesystem_size_bytes{job=\"node-exporter\", instance=~\"$hosts\", mountpoint=\"/data\"}\n )\n",
@@ -5520,6 +5675,10 @@ data:
         },
         {
           "collapsed": true,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
           "gridPos": {
             "h": 1,
             "w": 24,
@@ -5529,6 +5688,10 @@ data:
           "id": 407,
           "panels": [
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -5601,7 +5764,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_local_send_queue_avg{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -5614,6 +5777,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -5686,7 +5853,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_local_send_queue_min{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -5699,6 +5866,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -5771,7 +5942,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_local_send_queue_max{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -5784,6 +5955,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -5856,7 +6031,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_local_recv_queue_avg{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -5869,6 +6044,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -5941,7 +6120,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_local_recv_queue_min{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -5954,6 +6133,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -6026,7 +6209,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_local_recv_queue_max{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -6039,6 +6222,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -6112,7 +6299,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_flow_control_paused_ns{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -6125,6 +6312,10 @@ data:
               "type": "timeseries"
             },
             {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
               "description": "",
               "fieldConfig": {
                 "defaults": {
@@ -6197,7 +6388,7 @@ data:
                 {
                   "datasource": {
                     "type": "prometheus",
-                    "uid": "${DS_PROMETHEUS}"
+                    "uid": "prometheus"
                   },
                   "exemplar": true,
                   "expr": "sum (mysql_global_status_wsrep_cert_deps_distance{job=\"${rel}-${jobsuffix}\"}) by (pod)",
@@ -6215,13 +6406,13 @@ data:
         }
       ],
       "refresh": "",
-      "schemaVersion": 35,
+      "schemaVersion": 36,
       "style": "dark",
       "tags": [
-          "MySQL",
-          "Galera",
-          "MariaDB",
-          "prometheus"
+        "MySQL",
+        "Galera",
+        "MariaDB",
+        "prometheus"
       ],
       "templating": {
         "list": [
@@ -6294,28 +6485,21 @@ data:
             "hide": 2,
             "label": "Job Suffix",
             "name": "jobsuffix",
-            "query": "${VAR_JOBSUFFIX}",
+            "query": "mariadb-galera-metrics",
             "skipUrlSync": false,
-            "type": "constant",
-            "current": {
-              "value": "${VAR_JOBSUFFIX}",
-              "text": "${VAR_JOBSUFFIX}",
-              "selected": false
-            },
-            "options": [
-              {
-                "value": "${VAR_JOBSUFFIX}",
-                "text": "${VAR_JOBSUFFIX}",
-                "selected": false
-              }
-            ]
+            "type": "constant"
           },
           {
             "allFormat": "glob",
-            "current": {},
+            "current": {
+              "isNone": true,
+              "selected": true,
+              "text": "None",
+              "value": ""
+            },
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "prometheus"
             },
             "definition": "label_values(mysql_up, job)",
             "description": "The name of the release used to setup the cluster.",
@@ -6340,10 +6524,15 @@ data:
           },
           {
             "allFormat": "glob",
-            "current": {},
+            "current": {
+              "isNone": true,
+              "selected": true,
+              "text": "None",
+              "value": ""
+            },
             "datasource": {
               "type": "prometheus",
-              "uid": "${DS_PROMETHEUS}"
+              "uid": "prometheus"
             },
             "definition": "label_values(mysql_up{job=\"${rel}-${jobsuffix}\"}, pod)",
             "hide": 0,
@@ -6369,21 +6558,9 @@ data:
             "hide": 2,
             "label": "hosts",
             "name": "hosts",
-            "query": "${VAR_HOSTS}",
+            "query": "192.168.205.2.*",
             "skipUrlSync": false,
-            "type": "constant",
-            "current": {
-              "value": "${VAR_HOSTS}",
-              "text": "${VAR_HOSTS}",
-              "selected": false
-            },
-            "options": [
-              {
-                "value": "${VAR_HOSTS}",
-                "text": "${VAR_HOSTS}",
-                "selected": false
-              }
-            ]
+            "type": "constant"
           }
         ]
       },
@@ -6398,34 +6575,34 @@ data:
         "notice": false,
         "now": true,
         "refresh_intervals": [
-            "5s",
-            "10s",
-            "30s",
-            "1m",
-            "5m",
-            "15m",
-            "30m",
-            "1h",
-            "2h",
-            "1d"
+          "5s",
+          "10s",
+          "30s",
+          "1m",
+          "5m",
+          "15m",
+          "30m",
+          "1h",
+          "2h",
+          "1d"
         ],
         "status": "Stable",
         "time_options": [
-            "5m",
-            "15m",
-            "1h",
-            "6h",
-            "12h",
-            "24h",
-            "2d",
-            "7d",
-            "30d"
+          "5m",
+          "15m",
+          "1h",
+          "6h",
+          "12h",
+          "24h",
+          "2d",
+          "7d",
+          "30d"
         ],
         "type": "timepicker"
       },
       "timezone": "browser",
       "title": "MySQL Cluster Overview",
       "uid": "in6QqGJn7",
-      "version": 2,
+      "version": 1,
       "weekStart": ""
     }
