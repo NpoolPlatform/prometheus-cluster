@@ -1,0 +1,15 @@
+serviceMonitor:
+  enabled: true
+  namespace: monitor
+  additionalLabels:
+    labels:
+      release: prometheus
+nodeSelector:
+  ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
+mysql:
+  host: "mysql.kube-system.svc.cluster.local"
+  user: "root"
+  port: 3306
+  existingPasswordSecret:
+    name: "mysql-password-secret"
+    key: "rootpassword"

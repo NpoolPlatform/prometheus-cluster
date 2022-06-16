@@ -58,6 +58,17 @@ pipeline {
         sh 'helm upgrade prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter'
       }
     }
+
+    stage('Deploy mysql exporter cluster') {
+      when {
+        expression { DEPLOY_TARGET == 'true' }
+      }
+      steps {
+        sh 'NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < ./mysql-export/values.yaml > ./mysql-export/.values.yaml'
+        sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
+        sh 'helm upgrade prometheus-redis-exporter -f ./mysql-export/.values.yaml --namespace monitor ./mysql-export/prometheus-mysql-exporter || helm install prometheus-redis-exporter -f ./mysql-export/.values.yaml --namespace monitor ./mysql-export/prometheus-mysql-exporter'
+      }
+    }
   }
 
   post('Report') {
