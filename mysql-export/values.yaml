@@ -2,7 +2,6 @@ serviceMonitor:
   enabled: true
   namespace: monitor
   additionalLabels:
-    labels:
       release: prometheus
 nodeSelector:
   ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
