@@ -9,7 +9,9 @@
 ### 功能
 - [x] 监控k8s集群
 - [x] 监控集群内go-grpc相关api
-- [ ] 监控集群内第三方相关服务
+- [x] 监控集群内redis
+- [x] 监控集群内mysql
+- [ ] 监控集群内rabbitmq
 
 ### 配置说明
 * alertmanager/template下存放的是告警通知的模板```当前包含企业微信模板，多个模板配置可新建configMap并在values.yaml中alertmanager.alertmanagerSpec下添加对应的volumes```
