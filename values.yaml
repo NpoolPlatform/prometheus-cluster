@@ -68,7 +68,8 @@ grafana:
   nodeSelector:
     ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
   sidecar:
-    image:
+    dashboards:
+      enabled: true
   persistence:
     type: pvc
     enabled: true
