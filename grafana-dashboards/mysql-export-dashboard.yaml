@@ -8,6 +8,75 @@ metadata:
 data:
   mysql-exporter-dashboard.json: |-
     {
+      "__inputs": [
+        {
+          "name": "DS_PROMETHEUS",
+          "label": "Prometheus",
+          "description": "",
+          "type": "datasource",
+          "pluginId": "prometheus",
+          "pluginName": "Prometheus"
+        },
+        {
+          "name": "VAR_JOBSUFFIX",
+          "type": "constant",
+          "label": "Job Suffix",
+          "value": "mariadb-galera-metrics",
+          "description": ""
+        },
+        {
+          "name": "VAR_HOSTS",
+          "type": "constant",
+          "label": "Hosts IP regex",
+          "value": "192.168.205.2.*",
+          "description": "the physical hosts ips regex, used to filter node-exporter metrics."
+        }
+      ],
+      "__elements": [],
+      "__requires": [
+        {
+          "type": "panel",
+          "id": "gauge",
+          "name": "Gauge",
+          "version": ""
+        },
+        {
+          "type": "grafana",
+          "id": "grafana",
+          "name": "Grafana",
+          "version": "8.4.6"
+        },
+        {
+          "type": "panel",
+          "id": "graph",
+          "name": "Graph (old)",
+          "version": ""
+        },
+        {
+          "type": "datasource",
+          "id": "prometheus",
+          "name": "Prometheus",
+          "version": "1.0.0"
+        },
+        {
+          "type": "panel",
+          "id": "stat",
+          "name": "Stat",
+          "version": ""
+        },
+        {
+          "type": "panel",
+          "id": "table",
+          "name": "Table",
+          "version": ""
+        },
+        {
+          "type": "panel",
+          "id": "timeseries",
+          "name": "Time series",
+          "version": ""
+        }
+      ],
       "annotations": {
         "list": [
           {
@@ -6547,36 +6616,12 @@ data:
             "useTags": false
           },
           {
-            "allFormat": "glob",
-            "current": {
-              "isNone": true,
-              "selected": true,
-              "text": "None",
-              "value": ""
-            },
-            "datasource": {
-              "type": "prometheus",
-              "uid": "prometheus"
-            },
-            "definition": "label_values(mysql_up, instance)",
-            "hide": 0,
-            "includeAll": false,
+            "hide": 2,
             "label": "hosts",
-            "multi": false,
-            "multiFormat": "regex values",
             "name": "hosts",
-            "options": [],
-            "query": {
-              "query": "label_values(mysql_up, instance)",
-              "refId": "StandardVariableQuery"
-            },
-            "refresh": 1,
-            "refresh_on_load": false,
-            "regex": "",
+            "query": "192.168.205.2.*",
             "skipUrlSync": false,
-            "sort": 1,
-            "type": "query",
-            "useTags": false
+            "type": "constant"
           }
         ]
       },
