@@ -42,6 +42,9 @@
 * STORAGE_CLASS_NAME ```pvc storageClassName```
 * NODE_SELECTOR_LABEL_KEY ```指定的k8s node的标签key```
 * NODE_SELECTOR_LABEL_VALUE ```指定的k8s node的标签value```
+* MYSQL_EXPORTER_PASSWORD ```mysql mysql_exporter账号密码```
+* MAX_QUERIES_PER_HOUR ```mysql mysql_exporter账号每小时最大查询次数```
+* MAX_CONNECTIONS_PER_HOUR ```mysql mysql_exporter账号每小时最大连接次数```
 
 ### 相关链接
 * [Prometheus Community Kubernetes Helm Charts](https://github.com/prometheus-community/helm-charts)
