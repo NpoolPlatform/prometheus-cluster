@@ -6,7 +6,7 @@ serviceMonitor:
 nodeSelector:
   ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
 mysql:
-  host: "mysql.kube-system.svc.cluster.local"
+  host: "mysql-0.mysql.kube-system.svc.cluster.local"
   user: "mysql_exporter"
   port: 3306
   existingPasswordSecret:
