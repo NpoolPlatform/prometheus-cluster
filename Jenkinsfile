@@ -44,7 +44,7 @@ pipeline {
             kubectl exec --namespace kube-system mysql-0 -- mysql -h 127.0.0.1 -uroot -p$PASSWORD -P3306 -e "
             CREATE USER IF NOT EXISTS 'mysql_exporter'@'mysql-0.mysql.kube-system.svc.cluster.local' IDENTIFIED BY '$MYSQL_EXPORTER_PASSWORD';
             ALTER USER 'mysql_exporter'@'mysql-0.mysql.kube-system.svc.cluster.local' WITH  MAX_QUERIES_PER_HOUR 100 MAX_CONNECTIONS_PER_HOUR 10 MAX_USER_CONNECTIONS 10;
-            GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'mysql-0.mysql_exporter'@'mysql.kube-system.svc.cluster.local';"
+            GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'mysql_exporter'@'mysql-0.mysql.kube-system.svc.cluster.local';"
 
             MYSQL_EXPORTER_PASSWORD=$MYSQL_EXPORTER_PASSWORD envsubst < ./mysql-export/mysql-password-secret.yaml > ./mysql-export/.mysql-password-secret.yaml
             kubectl apply -f mysql-export/.mysql-password-secret.yaml
