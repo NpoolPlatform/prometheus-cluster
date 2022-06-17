@@ -45,9 +45,8 @@ pipeline {
             CREATE USER IF NOT EXISTS 'mysql_exporter'@'mysql.kube-system.svc.cluster.local' IDENTIFIED BY '$MYSQL_EXPORTER_PASSWORD';
             ALTER USER 'mysql_exporter'@'mysql.kube-system.svc.cluster.local' WITH  MAX_QUERIES_PER_HOUR 100 MAX_CONNECTIONS_PER_HOUR 10 MAX_USER_CONNECTIONS 10;
             GRANT SELECT ON *.* TO 'mysql_exporter'@'mysql.kube-system.svc.cluster.local';"
-            export MYSQL_EXPORTER_PASSWORD=$MYSQL_EXPORTER_PASSWORD
-            envsubst < mysql-export/mysql-password-secret.yaml
-            kubectl apply -f mysql-export/mysql-password-secret.yaml
+            MYSQL_EXPORTER_PASSWORD=$MYSQL_EXPORTER_PASSWORD envsubst < ./mysql-export/mysql-password-secret.yaml > ./mysql-export/.mysql-password-secret.yaml'
+            kubectl apply -f mysql-export/.mysql-password-secret.yaml
         '''.stripIndent())
       }
     }

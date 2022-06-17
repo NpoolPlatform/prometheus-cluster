@@ -10,5 +10,5 @@ mysql:
   user: "mysql_exporter"
   port: 3306
   existingPasswordSecret:
-    name: "prometheus-exporter-mysql-password-secret"
+    name: "mysql-exporter-password-secret"
     key: "password"
