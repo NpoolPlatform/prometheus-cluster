@@ -34,6 +34,23 @@ pipeline {
       }
     }
 
+     stage('Config mysql user') {
+      when {
+        expression { DEPLOY_TARGET == 'true' }
+      }
+      steps {
+        sh (returnStdout: false, script: '''
+            PASSWORD=`kubectl get secret --namespace "kube-system" mysql-password-secret -o jsonpath="{.data.rootpassword}" | base64 --decode`
+            kubectl exec --namespace kube-system mysql-0 -- mysql -h 127.0.0.1 -uroot -p$PASSWORD -P3306 -e "
+            CREATE USER IF NOT EXISTS 'prometheus_exporter'@'mysql.kube-system.svc.cluster.local' IDENTIFIED BY '$MYSQL_PROMETHEUS_EXPORTER_PASSWORD';
+            ALTER USER 'prometheus_exporter'@'mysql.kube-system.svc.cluster.local' WITH  MAX_QUERIES_PER_HOUR 100 MAX_CONNECTIONS_PER_HOUR 10 MAX_USER_CONNECTIONS 10;
+            GRANT SELECT ON *.* TO 'prometheus_exporter'@'mysql.kube-system.svc.cluster.local';"
+            export $MYSQL_PROMETHEUS_EXPORTER_PASSWORD=$$MYSQL_PROMETHEUS_EXPORTER_PASSWORD
+            envsubst < mysql-export/mysql-password-secret.yaml
+            kubectl apply -f mysql-export/mysql-password-secret.yaml
+        '''.stripIndent())
+      }
+    }
     stage('Deploy prometheus cluster') {
       when {
         expression { DEPLOY_TARGET == 'true' }
