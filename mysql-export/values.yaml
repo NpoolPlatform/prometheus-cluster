@@ -15,3 +15,4 @@ mysql:
 config:
   # Allow to set specifc options on the exporter
   logLevel: debug
+fullnameOverride: mysql-exporter
