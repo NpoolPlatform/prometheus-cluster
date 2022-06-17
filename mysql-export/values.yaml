@@ -7,7 +7,7 @@ nodeSelector:
   ${NODE_SELECTOR_LABEL_KEY}: ${NODE_SELECTOR_LABEL_VALUE}
 mysql:
   host: "mysql.kube-system.svc.cluster.local"
-  user: "root"
+  user: "prometheus_exporter"
   port: 3306
   existingPasswordSecret:
     name: "prometheus-exporter-mysql-password-secret"
