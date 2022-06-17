@@ -12,3 +12,6 @@ mysql:
   existingPasswordSecret:
     name: "mysql-exporter-password-secret"
     key: "password"
+config:
+  # Allow to set specifc options on the exporter
+  logLevel: debug
