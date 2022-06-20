@@ -3,7 +3,7 @@ kind: PrometheusRule
 metadata:
   labels:
     release: prometheus
-  name: go-grpc-rule
+  name: redis-exporter-rule
   namespace: monitor
 spec:
   groups:
