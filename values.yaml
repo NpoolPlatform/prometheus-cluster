@@ -88,6 +88,9 @@ prometheus:
     hosts:
       - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
     path: /
+  image:
+    repository: uhub.service.ucloud.cn/entropypool/prometheus
+    tag: "v2.0.0"
   prometheusSpec:
     retention: 15d
     storageSpec:
