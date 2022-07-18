@@ -6,7 +6,7 @@ alertmanager:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-common-headers@kubernetescrd
     hosts:
-      - "alertmanager.internal-devops.${TARGET_ENV}.npool.top"
+      - "alertmanager.${TARGET_ENV}.npool.top"
     path: /
   config:
     route:
@@ -60,7 +60,7 @@ grafana:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-common-headers@kubernetescrd
     hosts:
-      - "grafana.internal-devops.${TARGET_ENV}.npool.top"
+      - "grafana.${TARGET_ENV}.npool.top"
     path: /
   image:
     repository: uhub.service.ucloud.cn/entropypool/grafana
@@ -86,7 +86,7 @@ prometheus:
       traefik.ingress.kubernetes.io/router.entrypoints: websecure, web
       traefik.ingress.kubernetes.io/router.middlewares: kube-system-common-headers@kubernetescrd
     hosts:
-      - "prometheus.internal-devops.${TARGET_ENV}.npool.top"
+      - "prometheus.${TARGET_ENV}.npool.top"
     path: /
   image:
     repository: uhub.service.ucloud.cn/entropypool/prometheus
