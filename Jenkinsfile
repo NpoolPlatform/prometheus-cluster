@@ -53,6 +53,7 @@ pipeline {
         expression { DEPLOY_TARGET == 'true' }
       }
       steps {
+        sh 'kubectl apply -f ./redis-exporter/secret.yaml'
         sh 'NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < ./redis-exporter/values.yaml > ./redis-exporter/.values.yaml'
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
         sh 'helm upgrade prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter'
