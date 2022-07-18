@@ -53,10 +53,13 @@ pipeline {
         expression { DEPLOY_TARGET == 'true' }
       }
       steps {
-        sh 'kubectl apply -f ./redis-exporter/secret.yaml'
-        sh 'NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < ./redis-exporter/values.yaml > ./redis-exporter/.values.yaml'
-        sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
-        sh 'helm upgrade prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter'
+        sh (returnStdout: false, script: '''
+          export REDIS_PASSWORD=$REDIS_PASSWORD
+          envsubst < redis-exporter/secret.yaml | kubectl apply -f -
+          NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < ./redis-exporter/values.yaml > ./redis-exporter/.values.yaml
+          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+          helm upgrade prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter || helm install prometheus-redis-exporter -f ./redis-exporter/.values.yaml --namespace monitor ./redis-exporter/prometheus-redis-exporter
+        '''.stripIndent())
       }
     }
 
