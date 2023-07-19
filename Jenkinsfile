@@ -39,6 +39,7 @@ pipeline {
         expression { DEPLOY_TARGET == 'true' }
       }
       steps {
+        sh 'kubectl apply -f namespace.yaml'
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
         sh 'GRAFANA_PASSWORD=$GRAFANA_PASSWORD TARGET_ENV=$TARGET_ENV WECHAT_CORP_ID=$WECHAT_CORP_ID WECHAT_AGENT_ID=$WECHAT_AGENT_ID WECHAT_API_SECRET=$WECHAT_API_SECRET STORAGE_CLASS_NAME=plain-storage NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < values.yaml > .values.yaml'
         sh 'helm upgrade prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack || helm install prometheus -f .values.yaml --namespace monitor ./kube-prometheus-stack'
