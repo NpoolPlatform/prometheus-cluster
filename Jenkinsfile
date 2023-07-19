@@ -69,6 +69,7 @@ pipeline {
         expression { DEPLOY_TARGET == 'true' }
       }
       steps {
+        sh 'kubectl create secret generic mysql-exporter-password-secret --from-literal=password=$MYSQL_EXPORTER_PASSWORD -n monitor || echo "secret already exists"'
         sh 'NODE_SELECTOR_LABEL_KEY=$NODE_SELECTOR_LABEL_KEY NODE_SELECTOR_LABEL_VALUE=$NODE_SELECTOR_LABEL_VALUE envsubst < ./mysql-export/values.yaml > ./mysql-export/.values.yaml'
         sh 'helm repo add prometheus-community https://prometheus-community.github.io/helm-charts'
         sh 'helm upgrade prometheus-mysql-exporter -f ./mysql-export/.values.yaml --namespace monitor ./mysql-export/prometheus-mysql-exporter || helm install prometheus-mysql-exporter -f ./mysql-export/.values.yaml --namespace monitor ./mysql-export/prometheus-mysql-exporter'
